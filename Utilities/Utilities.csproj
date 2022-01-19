@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Utilities.ico</ApplicationIcon>
+    <NoWin32Manifest>true</NoWin32Manifest>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Icons\BIN-131994911368224627_32.png" />
+    <None Remove="Icons\calculate-3-32.png" />
+    <None Remove="Icons\file-131964784865074969_32.png" />
+    <None Remove="Icons\icon-export-32.png" />
+    <None Remove="Icons\image+images+photo+picture+pictures+icon-1320191040579947532_32.png" />
+    <None Remove="Icons\new-list-32.png" />
+    <None Remove="Icons\save-37-32.png" />
+    <None Remove="Icons\settings-115-32.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Utilities.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.14" />
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icons\BIN-131994911368224627_32.png" />
+    <Resource Include="Icons\calculate-3-32.png" />
+    <Resource Include="Icons\file-131964784865074969_32.png" />
+    <Resource Include="Icons\icon-export-32.png" />
+    <Resource Include="Icons\image+images+photo+picture+pictures+icon-1320191040579947532_32.png" />
+    <Resource Include="Icons\new-list-32.png" />
+    <Resource Include="Icons\save-37-32.png" />
+    <Resource Include="Icons\settings-115-32.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

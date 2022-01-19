@@ -1,0 +1,111 @@
+﻿<Window x:Class="Utilities.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:local="clr-namespace:Utilities"
+        mc:Ignorable="d"
+        Title="Settings" Height="550" Width="950" 
+        WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance Type=local:UtilityDataModel}">
+    <Window.Resources>
+        <CollectionViewSource x:Key="UtilitiesSorted" Source="{Binding UtilityTypes }">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Order" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="TariffsSorted" Source="{Binding Tariffs }" >
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Type.Order" />
+                <scm:SortDescription PropertyName="IsActive" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+                <RowDefinition Height="auto"/>
+
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Тип комунальных услуг"></TextBlock>
+            <DataGrid Grid.Row="1" ItemsSource="{Binding Source={StaticResource UtilitiesSorted}}" CanUserAddRows="False" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" Visibility="Collapsed"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Name}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="#" Binding="{Binding Order}"></DataGridTextColumn>
+                    <DataGridCheckBoxColumn Header="По тарифу" Binding="{Binding UseMesures}"></DataGridCheckBoxColumn>
+                    <DataGridCheckBoxColumn Header="Счётчик" Binding="{Binding UseMeters}"></DataGridCheckBoxColumn>
+                    <DataGridTextColumn Header="Тип" Binding="{Binding Type}" IsReadOnly="True" Visibility="Collapsed"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Еденицы" Binding="{Binding Units}"></DataGridTextColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Х" Click="Button_Click_5"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Button Content="Добавить новый тип" Click="Button_Click"></Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"  />
+                <RowDefinition Height="auto"/>
+
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Тарифы"></TextBlock>
+            <DataGrid Grid.Row="1" ItemsSource="{Binding Source={StaticResource TariffsSorted}}" AutoGenerateColumns="False" CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Visibility="Hidden"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Type.Name}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Цена" Binding="{Binding Cost}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Дата начала" Binding="{Binding StartDate, StringFormat=dd.MM.yyyy}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Дата конца" Binding="{Binding EndDate, StringFormat=dd.MM.yyyy}"></DataGridTextColumn>
+                    <DataGridCheckBoxColumn Header="Активен?" Binding="{Binding IsActive}"></DataGridCheckBoxColumn>
+                    <DataGridTemplateColumn CanUserReorder="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Х" Click="Button_Click_6"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Button Content="Добавить новый тариф" Click="Button_Click_2"></Button>
+            </StackPanel>
+        </Grid>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="10">
+            <Label Content="Переместить файл сохранения"></Label>
+            <TextBox Width="500" Text="{Binding SavePath}" IsReadOnly="True"></TextBox>
+            <Button Content="Обзор..." HorizontalAlignment="Right" Click="Button_Click_1"></Button>
+        </StackPanel>
+        <Button Grid.Row="2" Grid.ColumnSpan="2"  Click="Button_Click_4">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource SaveIcon}" Style="{StaticResource ButtonIcon}"/>
+                    <TextBlock Text="Сохранить изменения" Style="{StaticResource ButtonCaption}"></TextBlock>
+                </StackPanel>
+            </Button.Content>
+
+        </Button>
+    </Grid>
+</Window>

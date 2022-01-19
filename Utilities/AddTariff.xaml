@@ -1,0 +1,50 @@
+﻿<Window x:Class="Utilities.AddTariff"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Utilities"
+        mc:Ignorable="d"
+        Title="Добавить тариф" Height="250" Width="250"
+        WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance Type=local:AddTariffViewModel}">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="0" Grid.Row="0" Content="Тип"  HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+        <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding UtilityTypes}" SelectedItem="{Binding NewItem.Type}" VerticalAlignment="Center">
+            <ComboBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type local:UtilityType}">
+                    <TextBlock Text="{Binding Name}"></TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Label Grid.Column="0" Grid.Row="1" Content="Дата Начала" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+        <DatePicker Grid.Column="1" Grid.Row="1" SelectedDate="{Binding NewItem.StartDate}" VerticalAlignment="Center"></DatePicker>
+
+        <Label Grid.Column="0" Grid.Row="2" Content="Дата конца" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+        <DatePicker Grid.Column="1" Grid.Row="2" SelectedDate="{Binding NewItem.EndDate}" VerticalAlignment="Center"></DatePicker>
+
+        <Label Grid.Column="0" Grid.Row="3" Content="Стоимость" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
+            <TextBox  VerticalAlignment="Center" Text="{Binding NewItem.Cost}" Width="75" PreviewTextInput="TextBlock_PreviewTextInput"></TextBox>
+            <TextBlock Text="{Binding NewItem.Type.Units}" VerticalAlignment="Center" />
+
+        </StackPanel>
+
+        <Button Grid.Column="0" Grid.Row="4" Content="Сохранить" Click="Button_Click"></Button>
+        <Button Grid.Column="1" Grid.Row="4" Content="Отмена" Click="Button_Click_1"></Button>
+
+    </Grid>
+</Window>

@@ -1,0 +1,179 @@
+﻿<Window x:Class="Utilities.AddCheck"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:local="clr-namespace:Utilities"
+        mc:Ignorable="d"
+        Title="Добавить счёт" Height="550" Width="650"
+        WindowStartupLocation="CenterScreen"
+        Language="ua-UA"
+        d:DataContext="{d:DesignInstance Type=local:AddCheckViewModel}"
+        Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <CollectionViewSource x:Key="SortedRecords" Source="{Binding NewCheck.Records}" >
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription PropertyName="Tariff.Type.Order"/>
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+            <Style TargetType="ListView" >
+                <Setter Property="FontSize" Value="{StaticResource GlobalTextSize}"></Setter>
+            </Style>
+        </Grid.Resources>
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+            <Label  HorizontalAlignment="Right" Content="Дата" FontSize="{DynamicResource GlobalTextSize}"></Label>
+            <DatePicker SelectedDate="{Binding NewCheck.Date}" FontSize="{DynamicResource GlobalTextSize}"></DatePicker>
+        </StackPanel>
+        <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
+                  ItemsSource="{Binding Source={StaticResource SortedRecords} }" 
+                  IsTabStop="False" KeyboardNavigation.TabNavigation="Continue" 
+                  BorderThickness="0" Margin="10">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    <Setter Property="IsTabStop" Value="True"></Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type local:Record}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Tariff.Type.Name}"></TextBlock>
+                        <TextBlock Grid.Column="0" Text="{Binding PreviousValue, StringFormat=({0}) }" HorizontalAlignment="Right" Padding="0,0,10,0" >
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="Gray"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=PreviousValue}" Value="0" >
+                                            <Setter Property="Visibility" Value="Hidden"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Grid.Column="1" Text="{Binding Tariff.Cost, StringFormat=C}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=Tariff.Cost}" Value="1">
+                                            <Setter Property="Visibility" Value="Hidden"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBox Grid.Column="2" Text="{Binding Measure}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="TextBox_TextChanged" Background="Pink">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <EventSetter Event="GotFocus" Handler="TextBox_GotFocus"></EventSetter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=Tariff.Type.UseMesures}" Value="False">
+                                            <Setter Property="Visibility" Value="Hidden"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=Tariff.Type.UseMeters}" Value="True">
+                                            <Setter Property="Visibility" Value="Hidden"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <TextBox Grid.Column="2" Text="{Binding Measure}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="TextBox_TextChanged" Background="LightGreen">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <EventSetter Event="GotFocus" Handler="TextBox_GotFocus"></EventSetter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=Tariff.Type.UseMesures}" Value="False">
+                                            <Setter Property="Visibility" Value="Hidden"></Setter>
+                                            <!--<Setter Property="IsEnabled" Value="False"></Setter>-->
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+
+                        <TextBox Grid.Column="2" Text="{Binding Meters}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="TextBox_TextChanged" Background="LightYellow">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <EventSetter Event="GotFocus" Handler="TextBox_GotFocus"></EventSetter>
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=Tariff.Type.UseMeters}" Value="False">
+                                            <Setter Property="Visibility" Value="Hidden"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <TextBlock Grid.Column="2" Text="{Binding Measure}" HorizontalAlignment="Right" Margin="0,0,5,0" Foreground="Green">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=Tariff.Type.UseMeters}" Value="False">
+                                            <Setter Property="Visibility" Value="Hidden"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <TextBlock Grid.Column="3" Text="{Binding Tariff.Type.Units}" HorizontalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Column="4" Text="{Binding Cost, StringFormat=C}" HorizontalAlignment="Right" Padding="0,0,10,0" TargetUpdated="TextBlock_TargetUpdated"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding NewCheck.Sum, StringFormat=C}" HorizontalAlignment="Right" Padding="10" FontSize="20" />
+        <Button Grid.Row="4" Grid.Column="0" Style="{StaticResource ButtonWithoutIcon}" Click="Button_Click_2">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource CalculateIcon}" Style="{StaticResource ButtonIcon}"/>
+                    <TextBlock Text="Посчитать" Style="{StaticResource ButtonCaption}"></TextBlock>
+                </StackPanel>
+            </Button.Content>
+
+        </Button>
+
+        <Button Grid.Row="4" Grid.Column="1" Style="{StaticResource ButtonWithoutIcon}" Click="Button_Click">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource DeleteIcon}" Style="{StaticResource ButtonIcon}"/>
+                    <TextBlock Text="Сохранить" Style="{StaticResource ButtonCaption}"></TextBlock>
+                </StackPanel>
+            </Button.Content>
+
+        </Button>
+        <Button Grid.Row="4" Grid.Column="2" Style="{StaticResource ButtonWithoutIcon}" Click="Button_Click_1">
+
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource DeleteIcon}" Style="{StaticResource ButtonIcon}"/>
+                    <TextBlock Text="Отмена" Style="{StaticResource ButtonCaption}"></TextBlock>
+                </StackPanel>
+            </Button.Content>
+
+        </Button>
+
+    </Grid>
+</Window>

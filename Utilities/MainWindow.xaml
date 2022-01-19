@@ -1,0 +1,175 @@
+﻿<Window x:Class="Utilities.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:local="clr-namespace:Utilities"
+        mc:Ignorable="d"
+        Title="Коммунальные услуги" Height="600" Width="700" 
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded" Closing="Window_Closing"
+        Language="ua-UA"
+        d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}">
+    <Window.Resources>
+        <CollectionViewSource x:Key="Items" Source="{Binding Checks }" >
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Date" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        <Style TargetType="ListView">
+            <Setter Property="FontSize" Value="{StaticResource GlobalTextSize}"/>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="FontSize" Value="{StaticResource GlobalTextSize}"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        
+        <ListView x:Name="CheckList" Grid.Column="0" ItemsSource="{Binding Source={StaticResource Items} }" SelectedItem="{Binding SelectedCheck}">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type local:Check}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Date, StringFormat=dd.MM.yyyy}"></TextBlock>
+                        <!--<Button Grid.Column="1" Content="Recalc" Click="Button_Click_2"></Button>-->
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid Grid.Column="1" DataContext="{Binding SelectedCheck}" d:DataContext="{d:DesignInstance Type=local:Check}" Margin="10">
+            <Grid.Resources>
+                <CollectionViewSource x:Key="SortedRecords" Source="{Binding Records}" >
+                    <CollectionViewSource.SortDescriptions>
+                        <scm:SortDescription PropertyName="Tariff.Type.Order"/>
+                    </CollectionViewSource.SortDescriptions>
+                </CollectionViewSource>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource ButtonWithIcon}"
+                        HorizontalAlignment="Left" VerticalAlignment="Top" 
+                        Click="Button_Click_1">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource ButtonIcon}" Source="{StaticResource NewIcon}" ></Image>
+                            <TextBlock Style="{StaticResource ButtonCaption}" Text="Создать счёт" ></TextBlock>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource ButtonWithIcon}" 
+                        HorizontalAlignment="Right" VerticalAlignment="Top" 
+                        Click="Button_Click">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource ButtonIcon}" Source="{StaticResource SettingIcon}" ></Image>
+                            <TextBlock Style="{StaticResource ButtonCaption}" Text="Настройки" ></TextBlock>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+
+            </Grid>
+            <TextBlock Grid.Row="1" Text="{Binding Date, StringFormat=dd.MM.yyyy}" FontSize="{DynamicResource GlobalBigTextSize}" FontWeight="Bold"></TextBlock>
+            <DataGrid Grid.Row="2" ItemsSource="{Binding Source={StaticResource SortedRecords} }" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Услуга" Binding="{Binding Tariff.Type.Name}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Значение">
+                        <DataGridTextColumn.Binding>
+                            <MultiBinding StringFormat="{}{0} {1}">
+                                <Binding Path="Meters"></Binding>
+                                <Binding Path="Tariff.Type.Units"></Binding>
+                            </MultiBinding>
+                        </DataGridTextColumn.Binding>
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Tariff.Type.UseMeters}" Value="False">
+                                        <Setter Property="Visibility" Value="Hidden"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Показатель" FontWeight="Bold">
+                        <DataGridTextColumn.Binding>
+                            <MultiBinding StringFormat="{}{0:0.####} {1}">
+                                <Binding Path="Measure"></Binding>
+                                <Binding Path="Tariff.Type.Units"></Binding>
+                            </MultiBinding>
+                        </DataGridTextColumn.Binding>
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Стоимость" Binding="{Binding Tariff.Cost, StringFormat=C}" IsReadOnly="True"/>
+
+                    <DataGridTextColumn Header="Сумма" Binding="{Binding Cost, StringFormat=C}" IsReadOnly="True"/>
+                </DataGrid.Columns>
+                <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Cost}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+            </DataGrid>
+            <TextBlock Grid.Row="1"  Text="{Binding Sum, StringFormat=C}" FontSize="{DynamicResource GlobalBigTextSize}" FontWeight="Bold" HorizontalAlignment="Right"></TextBlock>
+
+            <Grid Grid.Row="4" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Click="Button_Click_3" Margin="10" d:DataContext="{d:DesignInstance Type=local:Check, IsDesignTimeCreatable=True}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource ExportIcon}" Style="{StaticResource ButtonIcon}"/>
+                            <TextBlock Text="Export" Style="{StaticResource ButtonCaption}" ></TextBlock>
+                        </StackPanel>
+                    </Button.Content>
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource ButtonWithIcon}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Hidden"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Grid.Column="1" Click="Button_Click_4" Style="{StaticResource ButtonWithIcon}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource DeleteIcon}" Style="{StaticResource ButtonIcon}"/>
+                            <TextBlock Text="Удалить" Style="{StaticResource ButtonCaption}"></TextBlock>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
