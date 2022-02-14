@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:local="clr-namespace:Utilities"
+        xmlns:datamodel="clr-namespace:Utilities.DataModel"
         mc:Ignorable="d"
         Title="Добавить счёт" Height="550" Width="650"
         WindowStartupLocation="CenterScreen"
@@ -27,6 +28,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.Resources>
+            <local:DecimalConverter x:Key="DecimalConverter"/>
             <CollectionViewSource x:Key="SortedRecords" Source="{Binding NewCheck.Records}" >
                 <CollectionViewSource.SortDescriptions>
                     <scm:SortDescription PropertyName="Tariff.Type.Order"/>
@@ -51,7 +53,7 @@
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
-                <DataTemplate DataType="{x:Type local:Record}">
+                <DataTemplate DataType="{x:Type datamodel:Record}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*"/>
@@ -84,7 +86,7 @@
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
-                        <TextBox Grid.Column="2" Text="{Binding Measure}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="TextBox_TextChanged" Background="Pink">
+                        <TextBox Grid.Column="2" Text="{Binding Measure, Converter={StaticResource DecimalConverter}}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="TextBox_TextChanged" Background="Pink">
                             <TextBox.Style>
                                 <Style TargetType="TextBox">
                                     <EventSetter Event="GotFocus" Handler="TextBox_GotFocus"></EventSetter>
@@ -99,7 +101,7 @@
                                 </Style>
                             </TextBox.Style>
                         </TextBox>
-                        <TextBox Grid.Column="2" Text="{Binding Measure}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="TextBox_TextChanged" Background="LightGreen">
+                        <TextBox Grid.Column="2" Text="{Binding Measure, Converter={StaticResource DecimalConverter}}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="TextBox_TextChanged" Background="LightGreen">
                             <TextBox.Style>
                                 <Style TargetType="TextBox">
                                     <EventSetter Event="GotFocus" Handler="TextBox_GotFocus"></EventSetter>
@@ -113,7 +115,7 @@
                             </TextBox.Style>
                         </TextBox>
 
-                        <TextBox Grid.Column="2" Text="{Binding Meters}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="TextBox_TextChanged" Background="LightYellow">
+                        <TextBox Grid.Column="2" Text="{Binding Meters, Converter={StaticResource DecimalConverter}}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="TextBox_TextChanged" Background="LightYellow">
                             <TextBox.Style>
                                 <Style TargetType="TextBox">
                                     <EventSetter Event="GotFocus" Handler="TextBox_GotFocus"></EventSetter>

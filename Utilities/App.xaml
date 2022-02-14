@@ -6,8 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="IconsDictionary.xaml" />
-                <ResourceDictionary Source="ControlStyles.xaml" />
+                <ResourceDictionary Source="XAML Resources/IconsDictionary.xaml" />
+                <ResourceDictionary Source="XAML Resources/ControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

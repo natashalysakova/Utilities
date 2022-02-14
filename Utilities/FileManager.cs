@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-
+using Utilities.DataModel;
 
 namespace Utilities
 {
     public class FileManager
     {
+        private const int NumberOfBackupFiles = 20;
         static string backupFolder = "Backup\\";
         //static string filename = "Utility.data.json";
 
@@ -55,26 +56,12 @@ namespace Utilities
         internal static UtilityDataModel LoadDefault()
         {
             var path = Properties.Settings.Default.SavePath;
-            //if(string.IsNullOrEmpty(path))
-            //{
-            //    path = "./data/Utility.data.json";
-            //    AppSettings.Default.SavePath = path;
-            //    AppSettings.Default.Save();
-            //}
-
             return Load(path);
         }
 
         internal static void SaveDefault(UtilityDataModel model)
         {
             var path = Properties.Settings.Default.SavePath;
-            //if (string.IsNullOrEmpty(path))
-            //{
-            //    path = "./data/Utility.data.json";
-            //    AppSettings.Default.SavePath = path;
-            //    AppSettings.Default.Save();
-            //}
-
             Save(model, path);
         }
 
@@ -86,8 +73,18 @@ namespace Utilities
                 Directory.CreateDirectory(backupDirectory);
             }
             var filename = Path.GetFileName(path);
-            var backupFileName = Path.Combine(backupDirectory, $"{filename}.backup");
+            var backupFileName = Path.Combine(backupDirectory, $"{DateTime.Now.ToString("ddMMyyyyHHmmss")}.{filename}.backup");
             File.Copy(path, backupFileName, true);
+
+            var backupFiles = Directory.GetFiles(backupDirectory);
+            if (backupFiles.Length > NumberOfBackupFiles)
+            {
+                Array.Sort(backupFiles);
+                foreach (var item in backupFiles.Take(backupFiles.Length - NumberOfBackupFiles))
+                {
+                    File.Delete(item);
+                }
+            }
         }
     }
 }

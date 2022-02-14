@@ -3,15 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Utilities"
+        xmlns:local="clr-namespace:Utilities" 
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:datamodel="clr-namespace:Utilities.DataModel"
         mc:Ignorable="d"
         Language="ua-UA"
         WindowStartupLocation="CenterScreen"
-        Title="Экспорт" Height="500" Width="750" ResizeMode="NoResize" d:DataContext="{d:DesignInstance Type=local:Check}">
+        Title="Экспорт" Height="520" Width="750" ResizeMode="NoResize" d:DataContext="{d:DesignInstance Type=datamodel:Check}">
     <Window.Resources>
         <Style TargetType="ListView">
             <Setter Property="FontSize" Value="{DynamicResource GlobalTextSize}"/>
         </Style>
+        <CollectionViewSource x:Key="Items" Source="{Binding Records }" >
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Tariff.Type.Order" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
     </Window.Resources>
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -27,7 +34,7 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="{Binding Date, StringFormat=dd.MM.yyyy}" FontSize="{DynamicResource GlobalBigTextSize}" Margin="10,0,0,20"></TextBlock>
-            <ListView Grid.Row="1" ItemsSource="{Binding Records}" BorderThickness="0">
+            <ListView Grid.Row="1" ItemsSource="{Binding Source={StaticResource Items}}" BorderThickness="0">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}">
                         <Setter Property="Background" Value="Transparent"/>
@@ -47,7 +54,7 @@
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
-                    <DataTemplate DataType="{x:Type local:Record}">
+                    <DataTemplate DataType="{x:Type datamodel:Record}">
                         <StackPanel>
                             <Separator Grid.ColumnSpan="4" VerticalAlignment="Top" Background="LightGray" Margin="0"></Separator>
                             <Grid>
@@ -99,7 +106,7 @@
                                     <TextBlock Text=" = "></TextBlock>
                                 </StackPanel>
 
-                                <TextBlock Grid.Column="3" Text="{Binding Cost, StringFormat=C}" Margin="5,3,5,3"  FontWeight="Bold" HorizontalAlignment="Right"></TextBlock>
+                                <TextBlock Grid.Column="3" Text="{Binding Cost, StringFormat=C}" Margin="0,3,5,3"  FontWeight="Bold" HorizontalAlignment="Right"></TextBlock>
                             </Grid>
                         </StackPanel>
                     </DataTemplate>

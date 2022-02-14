@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:local="clr-namespace:Utilities"
+        xmlns:datamodel="clr-namespace:Utilities.DataModel"
         mc:Ignorable="d"
-        Title="Коммунальные услуги" Height="600" Width="700" 
+        Title="Коммунальные услуги" Height="600" Width="730" 
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded" Closing="Window_Closing"
         Language="ua-UA"
@@ -15,6 +16,11 @@
         <CollectionViewSource x:Key="Items" Source="{Binding Checks }" >
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Date" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="SortedRecords" Source="{Binding SelectedCheck.Records}" >
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Tariff.Type.Order"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <Style TargetType="ListView">
@@ -32,7 +38,7 @@
         
         <ListView x:Name="CheckList" Grid.Column="0" ItemsSource="{Binding Source={StaticResource Items} }" SelectedItem="{Binding SelectedCheck}">
             <ListView.ItemTemplate>
-                <DataTemplate DataType="{x:Type local:Check}">
+                <DataTemplate DataType="{x:Type datamodel:Check}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -44,14 +50,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Grid Grid.Column="1" DataContext="{Binding SelectedCheck}" d:DataContext="{d:DesignInstance Type=local:Check}" Margin="10">
-            <Grid.Resources>
-                <CollectionViewSource x:Key="SortedRecords" Source="{Binding Records}" >
-                    <CollectionViewSource.SortDescriptions>
-                        <scm:SortDescription PropertyName="Tariff.Type.Order"/>
-                    </CollectionViewSource.SortDescriptions>
-                </CollectionViewSource>
-            </Grid.Resources>
+        <Grid Grid.Column="1" DataContext="{Binding SelectedCheck}" d:DataContext="{d:DesignInstance Type=datamodel:Check}" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -88,7 +87,7 @@
 
             </Grid>
             <TextBlock Grid.Row="1" Text="{Binding Date, StringFormat=dd.MM.yyyy}" FontSize="{DynamicResource GlobalBigTextSize}" FontWeight="Bold"></TextBlock>
-            <DataGrid Grid.Row="2" ItemsSource="{Binding Source={StaticResource SortedRecords} }" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid Grid.Row="2" ItemsSource="{Binding Source={StaticResource SortedRecords} }" AutoGenerateColumns="False" IsReadOnly="True" Margin="0">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Услуга" Binding="{Binding Tariff.Type.Name}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Значение">
@@ -144,7 +143,7 @@
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Click="Button_Click_3" Margin="10" d:DataContext="{d:DesignInstance Type=local:Check, IsDesignTimeCreatable=True}">
+                <Button Grid.Column="0" Click="Button_Click_3" Margin="10" d:DataContext="{d:DesignInstance Type=datamodel:Check, IsDesignTimeCreatable=True}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{StaticResource ExportIcon}" Style="{StaticResource ButtonIcon}"/>

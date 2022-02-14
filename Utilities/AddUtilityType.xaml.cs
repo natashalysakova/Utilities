@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Utilities.DataModel;
 
 namespace Utilities
 {
@@ -42,18 +41,6 @@ namespace Utilities
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-    }
-
-    public class AddUtilityViewModel
-    {
-        public IEnumerable<string> UtilitiyTypes { get; set; }
-        public UtilityType NewItem { get; set; }
-
-        public AddUtilityViewModel(int Id)
-        {
-            UtilitiyTypes = Enum.GetValues(typeof(Utility)).OfType<Utility>().Select(x => x.ToString()).ToList();
-            NewItem = new UtilityType(Id);
         }
     }
 }

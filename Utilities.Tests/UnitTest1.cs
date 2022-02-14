@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using Utilities.DataModel;
 
 namespace Utilities.Tests
 {

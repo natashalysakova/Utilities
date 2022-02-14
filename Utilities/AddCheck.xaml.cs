@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Utilities.DataModel;
 
 namespace Utilities
 {
@@ -46,9 +46,17 @@ namespace Utilities
 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            var canParse = decimal.TryParse(e.Text, out _);
-            var endsWithDot = e.Text.EndsWith('.');
-            e.Handled = !canParse && !endsWithDot;
+            if(e.Text == "." || e.Text == ",")
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                var canParse = decimal.TryParse(e.Text, out _);
+                //var endsWithDot = e.Text.EndsWith('.');
+                e.Handled = !canParse;
+
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -83,43 +91,5 @@ namespace Utilities
             viewModel.NewCheck.ReCalculate();
 
         }
-    }
-
-    public class AddCheckViewModel : IDisposable
-    {
-        private readonly UtilityDataModel model;
-
-        public AddCheckViewModel(UtilityDataModel model)
-        {
-            //Records = new ObservableCollection<Record>();
-            NewCheck = new Check(DateTime.Now);
-            NewCheck.DateChanged += NewCheck_DateChanged;
-            this.model = model;
-
-            FillRecords();
-        }
-
-        private void NewCheck_DateChanged(object? sender, EventArgs e)
-        {
-            FillRecords();
-        }
-
-        private void FillRecords()
-        {
-            //Records.Clear();
-            NewCheck.Records.Clear();
-            var date = NewCheck.Date;
-            var tarifs = model.Tarifs.Where(x => (date >= x.StartDate && x.EndDate is null) || (date >= x.StartDate && date <x.EndDate)).OrderByDescending(x=>x.Type.Order);
-            foreach (var tarif in tarifs)
-                NewCheck.Records.Add(new Record(tarif, 0, model.FindLatestRecordMetterForUtilityTypeBeforeDate(tarif.Type, date)));
-        }
-
-        public void Dispose()
-        {
-            NewCheck.DateChanged -= NewCheck_DateChanged;
-        }
-
-        public Check NewCheck { get; set; }
-        //public ObservableCollection<Record> Records { get; set; }
     }
 }

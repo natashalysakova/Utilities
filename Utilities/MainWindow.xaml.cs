@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Utilities.DataModel;
 
 namespace Utilities
 {
@@ -146,25 +143,6 @@ namespace Utilities
                 viewModel.Checks.Remove(viewModel.SelectedCheck);
                 viewModel.SelectedCheck = null;
                 FileManager.SaveDefault(model);
-            }
-        }
-    }
-
-    class MainWindowViewModel
-    {
-        public ObservableCollection<Check> Checks { get; set; }
-        private ListCollectionView _listCollectionView;
-        public Check SelectedCheck { get; set; }
-
-        public MainWindowViewModel()
-        {
-            Checks = new ObservableCollection<Check>();
-            _listCollectionView = CollectionViewSource.GetDefaultView(Checks) as ListCollectionView;
-            if (_listCollectionView != null)
-            {
-                _listCollectionView.IsLiveSorting = true;
-                _listCollectionView.CustomSort = new
-                        CaseInsensitiveComparer(CultureInfo.InvariantCulture);
             }
         }
     }

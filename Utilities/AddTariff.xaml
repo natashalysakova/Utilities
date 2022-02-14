@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Utilities"
+        xmlns:datamodel="clr-namespace:Utilities.DataModel"
         mc:Ignorable="d"
         Title="Добавить тариф" Height="250" Width="250"
         WindowStartupLocation="CenterScreen"
@@ -24,7 +25,7 @@
         <Label Grid.Column="0" Grid.Row="0" Content="Тип"  HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
         <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding UtilityTypes}" SelectedItem="{Binding NewItem.Type}" VerticalAlignment="Center">
             <ComboBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type local:UtilityType}">
+                <DataTemplate DataType="{x:Type datamodel:UtilityType}">
                     <TextBlock Text="{Binding Name}"></TextBlock>
                 </DataTemplate>
             </ComboBox.ItemTemplate>

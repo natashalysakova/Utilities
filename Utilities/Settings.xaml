@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:local="clr-namespace:Utilities"
+        xmlns:datamodel="clr-namespace:Utilities.DataModel"
         mc:Ignorable="d"
         Title="Settings" Height="550" Width="950" 
         WindowStartupLocation="CenterScreen"
-        d:DataContext="{d:DesignInstance Type=local:UtilityDataModel}">
+        d:DataContext="{d:DesignInstance Type=datamodel:UtilityDataModel}">
     <Window.Resources>
         <CollectionViewSource x:Key="UtilitiesSorted" Source="{Binding UtilityTypes }">
             <CollectionViewSource.SortDescriptions>
