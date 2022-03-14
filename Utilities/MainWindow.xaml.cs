@@ -50,6 +50,7 @@ namespace Utilities
             if (string.IsNullOrEmpty(Properties.Settings.Default.SavePath))
             {
                 Settings window = new Settings(model);
+                window.Focus();
                 if (window.ShowDialog().Value)
                 {
                     ReloadModel();

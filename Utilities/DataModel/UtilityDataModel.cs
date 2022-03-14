@@ -48,7 +48,8 @@ namespace Utilities.DataModel
             var latest = checksWithUtility.OrderBy(x => x.Date).LastOrDefault();
             if (latest != null)
             {
-                var rec = latest.Records.SingleOrDefault(x => x.Tariff.Type.Name == type.Name);
+                var tmp = latest.Records.Where(x => x.Tariff.Type.Name == type.Name);
+                var rec = tmp.Single(x => x.Measure == tmp.Max(x=>x.Measure));
                 return rec is null ? 0 : rec.Meters;
             }
 
