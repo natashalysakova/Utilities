@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Utilities.DataModel
 {
@@ -9,10 +10,7 @@ namespace Utilities.DataModel
         private decimal meters;
         private decimal cost;
 
-        public Record()
-        {
-
-        }
+        [JsonConstructor]
         public Record(Tariff tariff, decimal measure, decimal previousValue)
         {
             Tariff = tariff;
@@ -21,8 +19,8 @@ namespace Utilities.DataModel
                 Measure = 1;
 
             PreviousValue = previousValue;
-
         }
+
         public Tariff Tariff { get; set; }
         public decimal Measure { get => measure; set { measure = value; ReCalculate(); } }
         public decimal Meters { get => meters; set { meters = value; ReCalculate(); } }

@@ -1,28 +1,25 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Utilities.DataModel
 {
     public class Tariff : IComparable
     {
-
-        public Tariff() : this(0)
-        {
-        }
-
+        [JsonConstructor]
         public Tariff(int id)
         {
             IsActive = true;
             StartDate = DateTime.Now;
             Id = id;
         }
-        public Tariff(UtilityType type, DateTime sartDate, DateTime? endDate, bool isActive, decimal cost)
-        {
-            Type = type;
-            StartDate = sartDate;
-            EndDate = endDate;
-            IsActive = isActive;
-            Cost = cost;
-        }
+        //private Tariff(UtilityType type, DateTime sartDate, DateTime? endDate, bool isActive, decimal cost)
+        //{
+        //    Type = type;
+        //    StartDate = sartDate;
+        //    EndDate = endDate;
+        //    IsActive = isActive;
+        //    Cost = cost;
+        //}
 
         public int Id { get; set; }
         public UtilityType Type { get; set; }

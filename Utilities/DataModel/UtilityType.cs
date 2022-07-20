@@ -1,19 +1,16 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Utilities.DataModel
 {
     public class UtilityType : IComparable
     {
-        [Obsolete("use only for design mode", true)]
-        public UtilityType()
-        {
-
-        }
-
+        [JsonConstructor]
         public UtilityType(int id)
         {
             Id = id;
         }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public Utility Type { get; set; }

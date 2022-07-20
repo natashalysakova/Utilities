@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="SavePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">C:\Users\natas\source\repos\Utilities\Utilities.Tests\TestData\Utility.data.json</Value>
     </Setting>
   </Settings>
 </SettingsFile>

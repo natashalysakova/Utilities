@@ -23,7 +23,7 @@ namespace Utilities
         public AddUtilityType(UtilityDataModel dataModel)
         {
             DataModel = dataModel;
-            viewModel = new AddUtilityViewModel(dataModel.UtilityTypes.Any() ? dataModel.UtilityTypes.Max(x => x.Id + 1) : 0 );
+            viewModel = new AddUtilityViewModel(dataModel);
             DataContext = viewModel;
 
             InitializeComponent();

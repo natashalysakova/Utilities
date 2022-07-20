@@ -23,6 +23,7 @@ namespace Utilities.DataModel
 
         public void AddCheck(Check check)
         {
+            check.Id = Checks.Max(x => x.Id) + 1;
             Checks.Add(check);
             CheckAdded?.Invoke(check);
         }
@@ -54,6 +55,12 @@ namespace Utilities.DataModel
             }
 
             return 0;
+        }
+
+        internal void AddTarifs(Tariff newItem)
+        {
+            newItem.Id = Tarifs.Max(x => x.Id) + 1;
+            Tarifs.Add(newItem);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Utilities.DataModel;
+using Utilities.Factory;
 
 namespace Utilities
 {
@@ -11,7 +12,7 @@ namespace Utilities
         public AddCheckViewModel(UtilityDataModel model)
         {
             //Records = new ObservableCollection<Record>();
-            NewCheck = new Check(DateTime.Now);
+            NewCheck = new ObjectFactory(model).CreateCheck();
             NewCheck.DateChanged += NewCheck_DateChanged;
             this.model = model;
 

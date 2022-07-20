@@ -10,12 +10,13 @@ namespace Utilities.DataModel
 {
     public class Check : ActiveItem, IComparable
     {
-        private DateTime date;
+        private DateTime _date;
         private decimal sum;
 
         public event EventHandler DateChanged;
 
-        public Check()
+        [JsonConstructor]
+        public Check(int id, DateTime date)
         {
             Records = new ObservableCollection<Record>();
             _listCollectionView = CollectionViewSource.GetDefaultView(Records) as ListCollectionView;
@@ -25,17 +26,18 @@ namespace Utilities.DataModel
                 _listCollectionView.CustomSort = new
                         CaseInsensitiveComparer(CultureInfo.InvariantCulture);
             }
-        }
-        public Check(DateTime date) : this()
-        {
+
+            Id = id;
             Date = date;
         }
 
+        public int Id { get; set; }
+
         public DateTime Date
         {
-            get => date; set
+            get => _date; set
             {
-                date = value;
+                _date = value;
                 DateChanged?.Invoke(this, new EventArgs());
             }
         }

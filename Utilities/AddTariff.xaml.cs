@@ -31,7 +31,7 @@ namespace Utilities
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            model.Tarifs.Add(viewModel.NewItem);
+            model.AddTarifs(viewModel.NewItem);
             Close();
         }
 

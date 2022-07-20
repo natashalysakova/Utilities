@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Utilities.DataModel;
+using Utilities.Factory;
 
 namespace Utilities
 {
@@ -11,7 +12,7 @@ namespace Utilities
 
         public AddTariffViewModel(UtilityDataModel model)
         {
-            NewItem = new Tariff();
+            NewItem = new ObjectFactory(model).CreateTarif();
             UtilityTypes = model.UtilityTypes;
         }
     }
