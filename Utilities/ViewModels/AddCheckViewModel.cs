@@ -9,6 +9,7 @@ namespace Utilities
     {
         private readonly UtilityDataModel model;
         private Mode mode;
+
         public AddCheckViewModel(UtilityDataModel model, Check check)
         {
             mode = check is null ? Mode.Add : Mode.Edit;
@@ -42,6 +43,7 @@ namespace Utilities
         }
 
         public Check NewCheck { get; set; }
+        public string WindowTitle { get { return mode == Mode.Add ? "Добавить счёт" : "Редактировать счёт"; } }
     }
 
     enum Mode

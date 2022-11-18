@@ -161,10 +161,10 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Grid.Column="1" Click="Button_Click_5" Style="{StaticResource ButtonWithIcon}">
+                <Button Grid.Column="1" Click="Button_Click_5" Style="{StaticResource ButtonWithIcon}" >
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="{StaticResource DeleteIcon}" Style="{StaticResource ButtonIcon}"/>
+                            <Image Source="{StaticResource EditIcon}" Style="{StaticResource ButtonIcon}"/>
                             <TextBlock Text="Редактировать" Style="{StaticResource ButtonCaption}"></TextBlock>
                         </StackPanel>
                     </Button.Content>

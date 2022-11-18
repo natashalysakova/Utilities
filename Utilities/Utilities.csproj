@@ -21,6 +21,7 @@
     <None Remove="Icons\icon-export-32.png" />
     <None Remove="Icons\image+images+photo+picture+pictures+icon-1320191040579947532_32.png" />
     <None Remove="Icons\new-list-32.png" />
+    <None Remove="Icons\pngegg.png" />
     <None Remove="Icons\save-37-32.png" />
     <None Remove="Icons\settings-115-32.png" />
   </ItemGroup>
@@ -41,6 +42,7 @@
     <Resource Include="Icons\icon-export-32.png" />
     <Resource Include="Icons\image+images+photo+picture+pictures+icon-1320191040579947532_32.png" />
     <Resource Include="Icons\new-list-32.png" />
+    <Resource Include="Icons\pngegg.png" />
     <Resource Include="Icons\save-37-32.png" />
     <Resource Include="Icons\settings-115-32.png" />
   </ItemGroup>

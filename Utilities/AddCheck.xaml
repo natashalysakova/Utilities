@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Utilities"
         xmlns:datamodel="clr-namespace:Utilities.DataModel"
         mc:Ignorable="d"
-        Title="Добавить счёт" Height="550" Width="650"
+        Title="{Binding WindowTitle}" Height="550" Width="650"
         WindowStartupLocation="CenterScreen"
         Language="ua-UA"
         d:DataContext="{d:DesignInstance Type=local:AddCheckViewModel}"

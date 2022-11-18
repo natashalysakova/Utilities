@@ -20,6 +20,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FontSize" Value="{DynamicResource GlobalTextSize}"/>
         <Setter Property="Padding" Value="10,5,10,5"/>
+        <Setter Property="Margin" Value="10"/>
     </Style>
     <Style x:Key="ButtonWithoutIcon" TargetType="Button">
         <Setter Property="VerticalAlignment" Value="Center"/>

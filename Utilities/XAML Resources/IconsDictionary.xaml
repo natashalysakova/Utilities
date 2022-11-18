@@ -9,5 +9,5 @@
     <BitmapImage x:Key="SettingIcon" UriSource="pack://application:,,,/Icons/settings-115-32.png"/>
     <BitmapImage x:Key="PngIcon" UriSource="pack://application:,,,/Icons/file-131964784865074969_32.png"/>
     <BitmapImage x:Key="ClipboardIcon" UriSource="pack://application:,,,/Icons/image+images+photo+picture+pictures+icon-1320191040579947532_32.png"/>
-
+    <BitmapImage x:Key="EditIcon" UriSource="pack://application:,,,/Icons/pngegg.png"/>
 </ResourceDictionary>
