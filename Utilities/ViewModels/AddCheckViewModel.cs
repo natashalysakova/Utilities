@@ -8,14 +8,13 @@ namespace Utilities
     public class AddCheckViewModel : IDisposable
     {
         private readonly UtilityDataModel model;
-
-        public AddCheckViewModel(UtilityDataModel model)
+        private Mode mode;
+        public AddCheckViewModel(UtilityDataModel model, Check check)
         {
-            //Records = new ObservableCollection<Record>();
-            NewCheck = new ObjectFactory(model).CreateCheck();
-            NewCheck.DateChanged += NewCheck_DateChanged;
+            mode = check is null ? Mode.Add : Mode.Edit;
+            NewCheck = check is null  ?  new ObjectFactory(model).CreateCheck() : check;
             this.model = model;
-
+            NewCheck.DateChanged += NewCheck_DateChanged;
             FillRecords();
         }
 
@@ -27,11 +26,14 @@ namespace Utilities
         private void FillRecords()
         {
             //Records.Clear();
-            NewCheck.Records.Clear();
-            var date = NewCheck.Date;
-            var tarifs = model.Tarifs.Where(x => (date >= x.StartDate && x.EndDate is null) || (date >= x.StartDate && date <x.EndDate)).OrderByDescending(x=>x.Type.Order);
-            foreach (var tarif in tarifs)
-                NewCheck.Records.Add(new Record(tarif, 0, model.FindLatestRecordMetterForUtilityTypeBeforeDate(tarif.Type, date)));
+            if(mode == Mode.Add)
+            {
+                NewCheck.Records.Clear();
+                var date = NewCheck.Date;
+                var tarifs = model.Tarifs.Where(x => (date >= x.StartDate && x.EndDate is null) || (date >= x.StartDate && date < x.EndDate)).OrderByDescending(x => x.Type.Order);
+                foreach (var tarif in tarifs)
+                    NewCheck.Records.Add(new Record(tarif, 0, model.FindLatestRecordMetterForUtilityTypeBeforeDate(tarif.Type, date)));
+            }
         }
 
         public void Dispose()
@@ -40,6 +42,10 @@ namespace Utilities
         }
 
         public Check NewCheck { get; set; }
-        //public ObservableCollection<Record> Records { get; set; }
+    }
+
+    enum Mode
+    {
+        Add, Edit
     }
 }

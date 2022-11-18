@@ -140,10 +140,11 @@
 
             <Grid Grid.Row="4" Margin="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Click="Button_Click_3" Margin="10" d:DataContext="{d:DesignInstance Type=datamodel:Check, IsDesignTimeCreatable=True}">
+                <Button Grid.Column="0" Click="Button_Click_3" Margin="10" d:Visibility="Visible">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{StaticResource ExportIcon}" Style="{StaticResource ButtonIcon}"/>
@@ -160,7 +161,15 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Grid.Column="1" Click="Button_Click_4" Style="{StaticResource ButtonWithIcon}">
+                <Button Grid.Column="1" Click="Button_Click_5" Style="{StaticResource ButtonWithIcon}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource DeleteIcon}" Style="{StaticResource ButtonIcon}"/>
+                            <TextBlock Text="Редактировать" Style="{StaticResource ButtonCaption}"></TextBlock>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button Grid.Column="2" Click="Button_Click_4" Style="{StaticResource ButtonWithIcon}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{StaticResource DeleteIcon}" Style="{StaticResource ButtonIcon}"/>

@@ -146,5 +146,16 @@ namespace Utilities
                 FileManager.SaveDefault(model);
             }
         }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            if(viewModel.SelectedCheck is null)
+                return ;
+
+            AddCheck window = new AddCheck(model, viewModel.SelectedCheck);
+            window.ShowDialog();
+
+            FileManager.SaveDefault(model);
+        }
     }
 }

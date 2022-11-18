@@ -22,10 +22,10 @@ namespace Utilities
     {
         private readonly UtilityDataModel model;
         private readonly AddCheckViewModel viewModel;
-        public AddCheck(UtilityDataModel model)
+        public AddCheck(UtilityDataModel model, Check selected = default(Check))
         {
             this.model = model;
-            viewModel = new AddCheckViewModel(model);
+            viewModel = new AddCheckViewModel(model, selected);
             DataContext = viewModel;
             InitializeComponent();
             
