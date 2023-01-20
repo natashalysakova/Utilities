@@ -11,6 +11,7 @@
         WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance Type=datamodel:UtilityDataModel}">
     <Window.Resources>
+        <local:DateTimeConverter x:Key="DTConverter"/>
         <CollectionViewSource x:Key="UtilitiesSorted" Source="{Binding UtilityTypes }">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Order" />
@@ -22,7 +23,6 @@
                 <scm:SortDescription PropertyName="IsActive" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -78,7 +78,7 @@
                     <DataGridTextColumn Header="Название" Binding="{Binding Type.Name}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Цена" Binding="{Binding Cost}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Дата начала" Binding="{Binding StartDate, StringFormat=dd.MM.yyyy}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Дата конца" Binding="{Binding EndDate, StringFormat=dd.MM.yyyy}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Дата конца" Binding="{Binding EndDate, Converter={StaticResource DTConverter}}"></DataGridTextColumn>
                     <DataGridCheckBoxColumn Header="Активен?" Binding="{Binding IsActive}"></DataGridCheckBoxColumn>
                     <DataGridTemplateColumn CanUserReorder="True">
                         <DataGridTemplateColumn.CellTemplate>
