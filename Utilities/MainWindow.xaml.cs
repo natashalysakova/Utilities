@@ -73,9 +73,16 @@ namespace Utilities
             }
 
             model.CheckAdded += Model_CheckAdded;
+            model.CheckUpdated += Model_CheckUpdated;
+
             RefillChecks();
             CheckList.SelectedIndex = CheckList.Items.Count - 1;
             CheckList.ScrollIntoView(CheckList.SelectedItem);
+        }
+
+        private void Model_CheckUpdated(Check check)
+        {
+
         }
 
         private void RefillChecks()

@@ -22,6 +22,7 @@ namespace Utilities
     {
         private readonly UtilityDataModel model;
         private readonly AddCheckViewModel viewModel;
+
         public AddCheck(UtilityDataModel model, Check selected = default(Check))
         {
             this.model = model;
@@ -36,7 +37,10 @@ namespace Utilities
             var check = viewModel.NewCheck;
             viewModel.NewCheck.ReCalculate();
             //check.AddRecords(viewModel.Records);
-            model.AddCheck(check);
+            if (viewModel.Mode == Mode.Add)
+                model.AddCheck(check);
+            else
+                model.UpdateCheck(check);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

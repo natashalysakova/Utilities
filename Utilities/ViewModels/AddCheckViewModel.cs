@@ -8,12 +8,13 @@ namespace Utilities
     public class AddCheckViewModel : IDisposable
     {
         private readonly UtilityDataModel model;
-        private Mode mode;
+        public Mode Mode { get;  }
 
         public AddCheckViewModel(UtilityDataModel model, Check check)
         {
-            mode = check is null ? Mode.Add : Mode.Edit;
-            NewCheck = check is null  ?  new ObjectFactory(model).CreateCheck() : check;
+            Mode = check is null ? Mode.Add : Mode.Edit;
+            //NewCheck = check is null  ?  new ObjectFactory(model).CreateCheck() : check;
+            NewCheck = new ObjectFactory(model).CreateCheck(check);
             this.model = model;
             NewCheck.DateChanged += NewCheck_DateChanged;
             FillRecords();
@@ -27,7 +28,7 @@ namespace Utilities
         private void FillRecords()
         {
             //Records.Clear();
-            if(mode == Mode.Add)
+            if(Mode == Mode.Add)
             {
                 NewCheck.Records.Clear();
                 var date = NewCheck.Date;
@@ -43,10 +44,10 @@ namespace Utilities
         }
 
         public Check NewCheck { get; set; }
-        public string WindowTitle { get { return mode == Mode.Add ? "Добавить счёт" : "Редактировать счёт"; } }
+        public string WindowTitle { get { return Mode == Mode.Add ? "Добавить счёт" : "Редактировать счёт"; } }
     }
 
-    enum Mode
+    public enum Mode
     {
         Add, Edit
     }

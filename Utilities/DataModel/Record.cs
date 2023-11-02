@@ -22,8 +22,8 @@ namespace Utilities.DataModel
         }
 
         public Tariff Tariff { get; set; }
-        public decimal Measure { get => measure; set { measure = value; ReCalculate(); } }
-        public decimal Meters { get => meters; set { meters = value; ReCalculate(); } }
+        public decimal Measure { get => measure; set { measure = value; ReCalculate(); OnPropertyChanged(nameof(Measure)); } }
+        public decimal Meters { get => meters; set { meters = value; ReCalculate(); OnPropertyChanged(nameof(Meters)); } }
 
         public decimal Cost { get => cost; set { cost = value; OnPropertyChanged(nameof(Cost)); } }
 
